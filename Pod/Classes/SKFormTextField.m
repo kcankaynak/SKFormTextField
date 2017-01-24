@@ -646,7 +646,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
                                       floatingLabelSize.width,
                                       floatingLabelSize.height);
     
-    BOOL firstResponder = self.isFirstResponder;
+    BOOL firstResponder = self.textField.isFirstResponder;
     _floatingLabel.textColor = (firstResponder && self.textField.text && self.textField.text.length > 0 ?
                                 self.labelActiveColor : self.floatingLabelTextColor);
     if ((!self.textField.text || 0 == [self.textField.text length]) && !self.alwaysShowFloatingLabel) {
