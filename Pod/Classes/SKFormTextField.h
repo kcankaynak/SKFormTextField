@@ -120,6 +120,21 @@ IB_DESIGNABLE
 @property (nonatomic) IBInspectable BOOL hideLine;
 @property (nonatomic) IBInspectable CGFloat textViewHeight;
 
+@property (nonatomic, strong, readonly) UILabel *floatingLabel;
+@property (nonatomic) IBInspectable CGFloat floatingLabelYPadding;
+@property (nonatomic) IBInspectable CGFloat floatingLabelXPadding;
+@property (nonatomic) IBInspectable CGFloat placeholderYPadding;
+@property (nonatomic, strong) IBInspectable UIFont *floatingLabelFont;
+@property (nonatomic, strong) IBInspectable UIColor *floatingLabelTextColor;
+@property (nonatomic, strong) IBInspectable UIColor *floatingLabelActiveTextColor;
+@property (nonatomic, assign) IBInspectable BOOL animateEvenIfNotFirstResponder;
+@property (nonatomic, assign) NSTimeInterval floatingLabelShowAnimationDuration;
+@property (nonatomic, assign) NSTimeInterval floatingLabelHideAnimationDuration;
+@property (nonatomic, assign) IBInspectable BOOL adjustsClearButtonRect;
+@property (nonatomic, assign) IBInspectable BOOL keepBaseline;
+@property (nonatomic, assign) BOOL alwaysShowFloatingLabel;
+@property (nonatomic, strong) IBInspectable UIColor *placeholderColor;
+
 @property (weak) id <SKFormTextFieldDelegate> delegate;
 @property (weak) id <SKFormTextFieldDataSource> dataSource;
 @property (readwrite, copy) TextFieldDidEndEditingBlock textFieldDidEndEditingBlock;
@@ -196,5 +211,21 @@ IB_DESIGNABLE
  @param side SKFormTextFieldSide instance
  */
 - (BOOL)isEmpty;
+
+/**
+ *  Sets the placeholder and the floating title
+ *
+ *  @param placeholder The string that to be shown in the text field when no other text is present.
+ *  @param floatingTitle The string to be shown above the text field once it has been populated with text by the user.
+ */
+- (void)setPlaceholder:(NSString *)placeholder floatingTitle:(NSString *)floatingTitle;
+
+/**
+ *  Sets the attributed placeholder and the floating title
+ *
+ *  @param attributedPlaceholder The string that to be shown in the text field when no other text is present.
+ *  @param floatingTitle The string to be shown above the text field once it has been populated with text by the user.
+ */
+- (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder floatingTitle:(NSString *)floatingTitle;
 
 @end
