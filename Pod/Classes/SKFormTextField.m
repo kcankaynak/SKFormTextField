@@ -829,9 +829,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
 #pragma mark - UITextFieldDelegate Observers
 #pragma mark -
 
-- (void)textFieldDidChange:(NSNotification *)noti {
-    
-    UITextField *textField = [noti object];
+- (void)textFieldDidChange:(UITextField *)textField {
     
     [self setLabelOriginForTextAlignment];
     
