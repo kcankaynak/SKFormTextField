@@ -91,7 +91,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
             
             self.textField.font = [UIFont fontWithName:@"Roboto-Regular" size:14];
             self.textField.placeholder = self.placeholderText;
-            [self.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventValueChanged];
+            [self.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
             [self addSubview:self.textField];
             
             _floatingLabel = [UILabel new];
