@@ -91,6 +91,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
             
             self.textField.font = [UIFont fontWithName:@"Roboto-Regular" size:14];
             self.textField.placeholder = self.placeholderText;
+            [self.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventValueChanged];
             [self addSubview:self.textField];
             
             _floatingLabel = [UILabel new];
@@ -637,24 +638,6 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     [super layoutSubviews];
     
     self.descriptionLabel.preferredMaxLayoutWidth = self.descriptionLabel.frame.size.width;
-    [self setLabelOriginForTextAlignment];
-    
-    CGSize floatingLabelSize = [_floatingLabel sizeThatFits:_floatingLabel.superview.bounds.size];
-    
-    _floatingLabel.frame = CGRectMake(_floatingLabel.frame.origin.x,
-                                      _floatingLabel.frame.origin.y,
-                                      floatingLabelSize.width,
-                                      floatingLabelSize.height);
-    
-    BOOL firstResponder = self.textField.isFirstResponder;
-    _floatingLabel.textColor = (firstResponder && self.textField.text && self.textField.text.length > 0 ?
-                                self.labelActiveColor : self.floatingLabelTextColor);
-    if ((!self.textField.text || 0 == [self.textField.text length]) && !self.alwaysShowFloatingLabel) {
-        [self hideFloatingLabel:firstResponder];
-    }
-    else {
-        [self showFloatingLabel:firstResponder];
-    }
 }
 
 - (void)dealloc {
@@ -845,6 +828,30 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
 
 #pragma mark - UITextFieldDelegate Observers
 #pragma mark -
+
+- (void)textFieldDidChange:(NSNotification *)noti {
+    
+    UITextField *textField = [noti object];
+    
+    [self setLabelOriginForTextAlignment];
+    
+    CGSize floatingLabelSize = [_floatingLabel sizeThatFits:_floatingLabel.superview.bounds.size];
+    
+    _floatingLabel.frame = CGRectMake(_floatingLabel.frame.origin.x,
+                                      _floatingLabel.frame.origin.y,
+                                      floatingLabelSize.width,
+                                      floatingLabelSize.height);
+    
+    BOOL firstResponder = textField.isFirstResponder;
+    _floatingLabel.textColor = (firstResponder && textField.text && textField.text.length > 0 ?
+                                self.labelActiveColor : self.floatingLabelTextColor);
+    if ((!textField.text || 0 == [textField.text length]) && !self.alwaysShowFloatingLabel) {
+        [self hideFloatingLabel:firstResponder];
+    }
+    else {
+        [self showFloatingLabel:firstResponder];
+    }
+}
 
 - (void)textFieldDidBeginEditing:(NSNotification *)notification {
     if ([self.delegate respondsToSelector:@selector(textFieldDidBeginUpdates:)]) {
