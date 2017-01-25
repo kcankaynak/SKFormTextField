@@ -1410,11 +1410,15 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
 }
 
 - (void)showTextFieldTitle {
-    [self showFloatingLabel:YES];
+    if (_floatingLabel.alpha < 1.0f) {
+        [self showFloatingLabel:YES];
+    }
 }
 
 - (void)hideTextFieldTitle {
-    [self hideFloatingLabel:YES];
+    if (_floatingLabel.alpha > 0.0f) {
+        [self hideFloatingLabel:YES];
+    }
 }
 
 @end
