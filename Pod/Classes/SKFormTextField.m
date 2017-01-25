@@ -96,7 +96,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
             
             _floatingLabel = [UILabel new];
             _floatingLabel.alpha = 0.0f;
-            [self addSubview:_floatingLabel];
+            [self.textField addSubview:_floatingLabel];
             
             // some basic default fonts/colors
             _floatingLabelFont = [self defaultFloatingLabelFont];
@@ -831,7 +831,8 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
 
 - (void)textFieldDidChange:(UITextField *)textField {
     
-    [self setLabelOriginForTextAlignment];
+    //[self setLabelOriginForTextAlignment];
+    [self setNeedsLayout];
     
     CGSize floatingLabelSize = [_floatingLabel sizeThatFits:_floatingLabel.superview.bounds.size];
     
@@ -843,6 +844,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     BOOL firstResponder = textField.isFirstResponder;
     _floatingLabel.textColor = (firstResponder && textField.text && textField.text.length > 0 ?
                                 self.labelActiveColor : self.floatingLabelTextColor);
+    
     if ((!textField.text || 0 == [textField.text length]) && !self.alwaysShowFloatingLabel) {
         [self hideFloatingLabel:firstResponder];
     }
@@ -852,6 +854,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
 }
 
 - (void)textFieldDidBeginEditing:(NSNotification *)notification {
+    
     if ([self.delegate respondsToSelector:@selector(textFieldDidBeginUpdates:)]) {
         [self.delegate textFieldDidBeginUpdates:self];
     }
@@ -1132,7 +1135,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     }
 }
 
-#pragma mark - TEXTFIELD TITLE - 
+#pragma mark - TEXTFIELD TITLE -
 
 #pragma mark -
 
@@ -1204,6 +1207,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
                             options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut
                          animations:showBlock
                          completion:nil];
+        NSLog(@"BU NE LAN :%@", NSStringFromCGRect(_floatingLabel.frame));
     }
     else {
         showBlock();
@@ -1253,7 +1257,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
 - (void)setFloatingLabelText:(NSString *)text
 {
     _floatingLabel.text = text;
-    [self setNeedsLayout];
+    [self setLabelOriginForTextAlignment];
 }
 
 #pragma mark - UITextField
