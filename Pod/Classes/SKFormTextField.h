@@ -228,4 +228,6 @@ IB_DESIGNABLE
  */
 - (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder floatingTitle:(NSString *)floatingTitle;
 
+- (void)prepareTextFieldTitle:(SKFormTextField *)textField forAttributes:(NSDictionary *)attr;
+
 @end

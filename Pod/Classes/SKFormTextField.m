@@ -1196,7 +1196,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     void (^showBlock)() = ^{
         _floatingLabel.alpha = 1.0f;
         _floatingLabel.frame = CGRectMake(_floatingLabel.frame.origin.x,
-                                          _floatingLabelYPadding,
+                                          -12.0f,
                                           _floatingLabel.frame.size.width,
                                           _floatingLabel.frame.size.height);
     };
@@ -1279,7 +1279,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     CGSize textFieldIntrinsicContentSize = [super intrinsicContentSize];
     [_floatingLabel sizeToFit];
     return CGSizeMake(textFieldIntrinsicContentSize.width,
-                      textFieldIntrinsicContentSize.height + _floatingLabelYPadding + _floatingLabel.bounds.size.height);
+                      textFieldIntrinsicContentSize.height - 12.0f + _floatingLabel.bounds.size.height);
 }
 
 - (void)setCorrectPlaceholder:(NSString *)placeholder
@@ -1402,6 +1402,11 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
 {
     _alwaysShowFloatingLabel = alwaysShowFloatingLabel;
     [self setNeedsLayout];
+}
+
+- (void)prepareTextFieldTitle:(SKFormTextField *)textField forAttributes:(NSDictionary *)attr {
+    [self setFloatingLabelFont:[attr valueForKey:NSFontAttributeName]];
+    [self setFloatingLabelTextColor:[attr valueForKey:NSForegroundColorAttributeName]];
 }
 
 @end
