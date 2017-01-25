@@ -101,8 +101,8 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
             // some basic default fonts/colors
             _floatingLabelFont = [self defaultFloatingLabelFont];
             _floatingLabel.font = _floatingLabelFont;
-            _floatingLabelTextColor = [UIColor grayColor];
-            _floatingLabel.textColor = _floatingLabelTextColor;
+            //_floatingLabelTextColor = [UIColor grayColor];
+            //_floatingLabel.textColor = _floatingLabelTextColor;
             _animateEvenIfNotFirstResponder = NO;
             _floatingLabelShowAnimationDuration = kFloatingLabelShowAnimationDuration;
             _floatingLabelHideAnimationDuration = kFloatingLabelHideAnimationDuration;
@@ -1207,7 +1207,6 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
                             options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut
                          animations:showBlock
                          completion:nil];
-        NSLog(@"BU NE LAN :%@", NSStringFromCGRect(_floatingLabel.frame));
     }
     else {
         showBlock();
