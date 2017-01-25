@@ -1404,7 +1404,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     [self setNeedsLayout];
 }
 
-- (void)prepareTextFieldTitle:(SKFormTextField *)textField forAttributes:(NSDictionary *)attr {
+- (void)prepareTextFieldTitleForAttributes:(NSDictionary *)attr {
     [self setFloatingLabelFont:[attr valueForKey:NSFontAttributeName]];
     [self setFloatingLabelTextColor:[attr valueForKey:NSForegroundColorAttributeName]];
 }
