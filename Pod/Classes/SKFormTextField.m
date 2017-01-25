@@ -1409,4 +1409,12 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     [self setFloatingLabelTextColor:[attr valueForKey:NSForegroundColorAttributeName]];
 }
 
+- (void)showTextFieldTitle {
+    [self showFloatingLabel:YES];
+}
+
+- (void)hideTextFieldTitle {
+    [self hideFloatingLabel:YES];
+}
+
 @end

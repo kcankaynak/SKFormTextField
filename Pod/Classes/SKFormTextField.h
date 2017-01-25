@@ -230,4 +230,8 @@ IB_DESIGNABLE
 
 - (void)prepareTextFieldTitleForAttributes:(NSDictionary *)attr;
 
+- (void)showTextFieldTitle;
+
+- (void)hideTextFieldTitle;
+
 @end
