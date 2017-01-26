@@ -1408,7 +1408,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     [self setFloatingLabelTextColor:[attr valueForKey:NSForegroundColorAttributeName]];
 }
 
-- (void)showTextFieldTitle:(BOOL)animated {
+- (void)showTextFieldTitleWithAnimated:(BOOL)animated {
     if (_floatingLabel.alpha < 1.0f) {
         [self showFloatingLabel:animated];
     }
