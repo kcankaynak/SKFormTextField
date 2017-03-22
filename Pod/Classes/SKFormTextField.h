@@ -111,6 +111,7 @@ IB_DESIGNABLE
 @property (nonatomic, strong) IBInspectable UIImage *leftIconImage;
 @property (nonatomic, strong) IBInspectable UIImage *rightIconImage;
 @property (nonatomic, strong) IBInspectable UIImage *errorImage;
+@property (nonatomic) IBInspectable UIKeyboardType *keyboardType;
 @property (nonatomic) IBInspectable BOOL leftButtonHidden;
 @property (nonatomic) IBInspectable BOOL rightButtonHidden;
 @property (nonatomic) IBInspectable BOOL leftIconHidden;

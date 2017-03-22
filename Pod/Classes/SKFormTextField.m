@@ -1135,6 +1135,14 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     }
 }
 
+- (void)setKeyboardType:(UIKeyboardType *)keyboardType {
+    _keyboardType = keyboardType;
+    
+    if (hasSetuped) {
+        [self updateUI];
+    }
+}
+
 #pragma mark - TEXTFIELD TITLE -
 
 #pragma mark -
