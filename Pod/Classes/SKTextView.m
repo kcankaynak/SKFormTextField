@@ -133,6 +133,11 @@ static CGFloat const kLabelTopOffsetRetina = 0.5f;
     [self.placeholderLabel sizeToFit];
 }
 
+- (void)setPlaceholderColor:(UIColor *)placeholderColor {
+    _placeholderColor = [placeholderColor copy];
+    self.placeholderLabel.textColor = _placeholderColor;
+    [self.placeholderLabel sizeToFit];
+}
 
 #pragma mark - UITextView subclass methods
 
