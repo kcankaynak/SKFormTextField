@@ -95,7 +95,7 @@ static CGFloat const kLabelTopOffsetRetina = 0.5f;
     self.placeholderLabel.backgroundColor = [UIColor clearColor];
     self.placeholderLabel.text = self.placeholderText;
     // Color-matched to UITextField's placeholder text color:
-    self.placeholderLabel.textColor = [UIColor colorWithWhite:0.71f alpha:1.0f];
+    self.placeholderLabel.textColor = self.placeholderColor != nil ? self.placeholderColor : [UIColor colorWithWhite:0.71f alpha:1.0f];
     
     // UIKit effects on the UITextView, like selection ranges
     // and the cursor, are done in a view above the text view,

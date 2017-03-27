@@ -7,4 +7,5 @@
 
 @interface SKTextView : UITextView
 @property (nonatomic, copy) NSString *placeholderText;
+@property (nonatomic, copy) UIColor *placeholderColor;
 @end
