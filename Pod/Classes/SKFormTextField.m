@@ -85,6 +85,8 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         }
         if (!self.textField) {
             self.textField = [UITextField new];
+            [self.textField setAccessibilityLabel:@"companyRegisterAdPhone"];
+            [self.textField setIsAccessibilityElement:YES];
             
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidBeginEditing:) name:UITextFieldTextDidBeginEditingNotification object:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidEndEditing:) name:UITextFieldTextDidEndEditingNotification object:nil];

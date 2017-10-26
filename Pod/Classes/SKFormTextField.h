@@ -209,7 +209,6 @@ IB_DESIGNABLE
 
 /**
  Returns BOOL value showing if textField has text
- @param side SKFormTextFieldSide instance
  */
 - (BOOL)isEmpty;
 
