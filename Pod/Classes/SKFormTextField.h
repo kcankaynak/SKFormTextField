@@ -54,23 +54,23 @@ typedef enum SKFormTextFieldState:NSInteger {
  The SKFormTextFieldDelegate protocol provides methods to update other view on screen
  */
 @protocol SKFormTextFieldDelegate <NSObject>
-
-@optional
+    
+    @optional
 - (void)textFieldDidBeginUpdates:(SKFormTextField *)textField;
 - (void)textFieldDidEndUpdates:(SKFormTextField *)textField;
-
-@end
+    
+    @end
 
 /**
  The SKFormTextFieldDataSource protocol provides methods to text field validation and customization
  */
 @protocol SKFormTextFieldDataSource <NSObject>
-
-@optional
+    
+    @optional
 - (BOOL)textFieldIsValid:(SKFormTextField *)textField;
 - (void)configureTextField:(SKFormTextField *)textField forState:(SKFormTextFieldState)state;
-
-@end
+    
+    @end
 
 #pragma mark - SKFormTextField
 #pragma mark -
@@ -90,148 +90,150 @@ typedef void (^TextFieldDidEndEditingBlock)(NSString*);
 
 IB_DESIGNABLE
 
-@interface SKFormTextField : UIControl
-
-@property (nonatomic) IBInspectable SKFormTextFieldState textFieldState;
-@property (nonatomic) IBInspectable SKFormTextFieldType type;
-@property (nonatomic) IBInspectable SKFormTextFieldMode mode;
-@property (nonatomic, strong) IBInspectable UIColor *lineNormalColor;
-@property (nonatomic, strong) IBInspectable UIColor *lineActiveColor;
-@property (nonatomic, strong) IBInspectable UIColor *lineValidColor;
-@property (nonatomic, strong) IBInspectable UIColor *lineErrorColor;
-@property (nonatomic, strong) IBInspectable UIColor *descriptionNormalColor;
-@property (nonatomic, strong) IBInspectable UIColor *descriptionActiveColor;
-@property (nonatomic, strong) IBInspectable UIColor *descriptionValidColor;
-@property (nonatomic, strong) IBInspectable UIColor *descriptionErrorColor;
-@property (nonatomic, strong) IBInspectable NSString *placeholderText;
-@property (nonatomic, strong) IBInspectable NSString *descriptionText;
-@property (nonatomic, strong) IBInspectable NSString *errorMessageText;
-@property (nonatomic, strong) IBInspectable UIImage *leftButtonImage;
-@property (nonatomic, strong) IBInspectable UIImage *rightButtonImage;
-@property (nonatomic, strong) IBInspectable UIImage *leftIconImage;
-@property (nonatomic, strong) IBInspectable UIImage *rightIconImage;
-@property (nonatomic, strong) IBInspectable UIImage *errorImage;
-@property (nonatomic) IBInspectable UIKeyboardType *keyboardType;
-@property (nonatomic) IBInspectable BOOL leftButtonHidden;
-@property (nonatomic) IBInspectable BOOL rightButtonHidden;
-@property (nonatomic) IBInspectable BOOL leftIconHidden;
-@property (nonatomic) IBInspectable BOOL rightIconHidden;
-@property (nonatomic) IBInspectable BOOL required;
-@property (nonatomic) IBInspectable BOOL doNotHideLineWhenRead;
-@property (nonatomic) IBInspectable BOOL hideLine;
-@property (nonatomic) IBInspectable CGFloat textViewHeight;
-
-@property (nonatomic, strong, readonly) UILabel *floatingLabel;
-@property (nonatomic) IBInspectable CGFloat floatingLabelYPadding;
-@property (nonatomic) IBInspectable CGFloat floatingLabelXPadding;
-@property (nonatomic) IBInspectable CGFloat placeholderYPadding;
-@property (nonatomic, strong) IBInspectable UIFont *floatingLabelFont;
-@property (nonatomic, strong) IBInspectable UIColor *floatingLabelTextColor;
-@property (nonatomic, strong) IBInspectable UIColor *floatingLabelActiveTextColor;
-@property (nonatomic, assign) IBInspectable BOOL animateEvenIfNotFirstResponder;
-@property (nonatomic, assign) NSTimeInterval floatingLabelShowAnimationDuration;
-@property (nonatomic, assign) NSTimeInterval floatingLabelHideAnimationDuration;
-@property (nonatomic, assign) IBInspectable BOOL adjustsClearButtonRect;
-@property (nonatomic, assign) IBInspectable BOOL keepBaseline;
-@property (nonatomic, assign) BOOL alwaysShowFloatingLabel;
-@property (nonatomic, strong) IBInspectable UIColor *placeholderColor;
-
-@property (weak) id <SKFormTextFieldDelegate> delegate;
-@property (weak) id <SKFormTextFieldDataSource> dataSource;
-@property (readwrite, copy) TextFieldDidEndEditingBlock textFieldDidEndEditingBlock;
-@property (readwrite, copy) TextFieldDidEndEditingBlock textViewDidEndEditingBlock;
-
-@property (strong, nonatomic) UITextField *textField;
-@property (strong, nonatomic) NSLayoutConstraint *textFieldLeftConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *textFieldRightConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *textFieldHeightConstraint;
-
-@property (strong, nonatomic) SKTextView *textView;
-
-@property (strong, nonatomic) NSDateFormatter *dateFormatter;
-@property (strong, nonatomic) UIDatePicker *datePicker;
-
-@property (strong, nonatomic) UIButton *leftButton;
-@property (strong, nonatomic) UIButton *rightButton;
-
-@property (strong, nonatomic) UIView *line;
-@property (strong, nonatomic) NSLayoutConstraint *lineHeightConstraint;
-
-@property (strong, nonatomic) UILabel *descriptionLabel;
-@property (strong, nonatomic) NSLayoutConstraint *descriptionToLineConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *descriptionLabelLeftConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *descriptionLabelRightConstraint;
-
-@property (strong, nonatomic) NSLayoutConstraint *leftButtonWidthConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *leftButtonHeightConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *rightButtonWidthConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *rightButtonHeightConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *leftImageWidthConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *leftImageHeightConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *rightImageWidthConstraint;
-@property (strong, nonatomic) NSLayoutConstraint *rightImageHeightConstraint;
-
-@property (strong, nonatomic) UIImageView *leftDescriptionIcon;
-@property (strong, nonatomic) UIImageView *rightDescriptionIcon;
-
+@interface SKFormTextField : UIControl<UITextFieldDelegate>
+    
+    @property (nonatomic) IBInspectable SKFormTextFieldState textFieldState;
+    @property (nonatomic) IBInspectable SKFormTextFieldType type;
+    @property (nonatomic) IBInspectable SKFormTextFieldMode mode;
+    @property (nonatomic, strong) IBInspectable UIColor *lineNormalColor;
+    @property (nonatomic, strong) IBInspectable UIColor *lineActiveColor;
+    @property (nonatomic, strong) IBInspectable UIColor *lineValidColor;
+    @property (nonatomic, strong) IBInspectable UIColor *lineErrorColor;
+    @property (nonatomic, strong) IBInspectable UIColor *descriptionNormalColor;
+    @property (nonatomic, strong) IBInspectable UIColor *descriptionActiveColor;
+    @property (nonatomic, strong) IBInspectable UIColor *descriptionValidColor;
+    @property (nonatomic, strong) IBInspectable UIColor *descriptionErrorColor;
+    @property (nonatomic, strong) IBInspectable NSString *placeholderText;
+    @property (nonatomic, strong) IBInspectable NSString *descriptionText;
+    @property (nonatomic, strong) IBInspectable NSString *errorMessageText;
+    @property (nonatomic, strong) IBInspectable UIImage *leftButtonImage;
+    @property (nonatomic, strong) IBInspectable UIImage *rightButtonImage;
+    @property (nonatomic, strong) IBInspectable UIImage *leftIconImage;
+    @property (nonatomic, strong) IBInspectable UIImage *rightIconImage;
+    @property (nonatomic, strong) IBInspectable UIImage *errorImage;
+    @property (nonatomic) IBInspectable UIKeyboardType *keyboardType;
+    @property (nonatomic) IBInspectable BOOL leftButtonHidden;
+    @property (nonatomic) IBInspectable BOOL rightButtonHidden;
+    @property (nonatomic) IBInspectable BOOL leftIconHidden;
+    @property (nonatomic) IBInspectable BOOL rightIconHidden;
+    @property (nonatomic) IBInspectable BOOL required;
+    @property (nonatomic) IBInspectable BOOL doNotHideLineWhenRead;
+    @property (nonatomic) IBInspectable BOOL hideLine;
+    @property (nonatomic) IBInspectable CGFloat textViewHeight;
+    
+    @property (nonatomic, strong, readonly) UILabel *floatingLabel;
+    @property (nonatomic) IBInspectable CGFloat floatingLabelYPadding;
+    @property (nonatomic) IBInspectable CGFloat floatingLabelXPadding;
+    @property (nonatomic) IBInspectable CGFloat placeholderYPadding;
+    @property (nonatomic, strong) IBInspectable UIFont *floatingLabelFont;
+    @property (nonatomic, strong) IBInspectable UIColor *floatingLabelTextColor;
+    @property (nonatomic, strong) IBInspectable UIColor *floatingLabelActiveTextColor;
+    @property (nonatomic, assign) IBInspectable BOOL animateEvenIfNotFirstResponder;
+    @property (nonatomic, assign) NSTimeInterval floatingLabelShowAnimationDuration;
+    @property (nonatomic, assign) NSTimeInterval floatingLabelHideAnimationDuration;
+    @property (nonatomic, assign) IBInspectable BOOL adjustsClearButtonRect;
+    @property (nonatomic, assign) IBInspectable BOOL keepBaseline;
+    @property (nonatomic, assign) BOOL alwaysShowFloatingLabel;
+    @property (nonatomic, strong) IBInspectable UIColor *placeholderColor;
+    
+    @property (weak) id <SKFormTextFieldDelegate> delegate;
+    @property (weak) id <SKFormTextFieldDataSource> dataSource;
+    @property (readwrite, copy) TextFieldDidEndEditingBlock textFieldDidEndEditingBlock;
+    @property (readwrite, copy) TextFieldDidEndEditingBlock textViewDidEndEditingBlock;
+    
+    @property (strong, nonatomic) UITextField *textField;
+    @property (strong, nonatomic) NSLayoutConstraint *textFieldLeftConstraint;
+    @property (strong, nonatomic) NSLayoutConstraint *textFieldRightConstraint;
+    @property (strong, nonatomic) NSLayoutConstraint *textFieldHeightConstraint;
+    
+    @property (strong, nonatomic) SKTextView *textView;
+    
+    @property (strong, nonatomic) NSDateFormatter *dateFormatter;
+    @property (strong, nonatomic) UIDatePicker *datePicker;
+    
+    @property (strong, nonatomic) UIButton *leftButton;
+    @property (strong, nonatomic) UIButton *rightButton;
+    
+    @property (strong, nonatomic) UIView *line;
+    @property (strong, nonatomic) NSLayoutConstraint *lineHeightConstraint;
+    
+    @property (strong, nonatomic) UILabel *descriptionLabel;
+    @property (strong, nonatomic) NSLayoutConstraint *descriptionToLineConstraint;
+    @property (strong, nonatomic) NSLayoutConstraint *descriptionLabelLeftConstraint;
+    @property (strong, nonatomic) NSLayoutConstraint *descriptionLabelRightConstraint;
+    
+    @property (strong, nonatomic) NSLayoutConstraint *leftButtonWidthConstraint;
+    @property (strong, nonatomic) NSLayoutConstraint *leftButtonHeightConstraint;
+    @property (strong, nonatomic) NSLayoutConstraint *rightButtonWidthConstraint;
+    @property (strong, nonatomic) NSLayoutConstraint *rightButtonHeightConstraint;
+    @property (strong, nonatomic) NSLayoutConstraint *leftImageWidthConstraint;
+    @property (strong, nonatomic) NSLayoutConstraint *leftImageHeightConstraint;
+    @property (strong, nonatomic) NSLayoutConstraint *rightImageWidthConstraint;
+    @property (strong, nonatomic) NSLayoutConstraint *rightImageHeightConstraint;
+    
+    @property (strong, nonatomic) UIImageView *leftDescriptionIcon;
+    @property (strong, nonatomic) UIImageView *rightDescriptionIcon;
+    @property (nonatomic) BOOL shouldShowPlaceholderTitle;
+    
 #pragma mark - Methods
 #pragma mark -
-
-/**
- Sets type for SKFormTextField
- @param type SKFormTextFieldType instance
- */
+    
+    /**
+     Sets type for SKFormTextField
+     @param type SKFormTextFieldType instance
+     */
 - (void)setType:(SKFormTextFieldType)type animated:(BOOL)animated;
-
-/**
- Shows button at specified side of textField
- @param side SKFormTextFieldSide instance
- */
+    
+    /**
+     Shows button at specified side of textField
+     @param side SKFormTextFieldSide instance
+     */
 - (void)showButtonAtSide:(SKFormTextFieldSide)side;
-
-/**
- Hides button at specified side of textField
- @param side SKFormTextFieldSide instance
- */
+    
+    /**
+     Hides button at specified side of textField
+     @param side SKFormTextFieldSide instance
+     */
 - (void)hideButtonAtSide:(SKFormTextFieldSide)side;
-
-/**
- Shows icon at specified side of descriptionLabel
- @param side SKFormTextFieldSide instance
- */
+    
+    /**
+     Shows icon at specified side of descriptionLabel
+     @param side SKFormTextFieldSide instance
+     */
 - (void)showDescriptionIconAtSide:(SKFormTextFieldSide)side;
-
-/**
- Hides icon at specified side of descriptionLabel
- @param side SKFormTextFieldSide instance
- */
+    
+    /**
+     Hides icon at specified side of descriptionLabel
+     @param side SKFormTextFieldSide instance
+     */
 - (void)hideDescriptionIconAtSide:(SKFormTextFieldSide)side;
-
-/**
- Returns BOOL value showing if textField has text
- */
+    
+    /**
+     Returns BOOL value showing if textField has text
+     */
 - (BOOL)isEmpty;
-
-/**
- *  Sets the placeholder and the floating title
- *
- *  @param placeholder The string that to be shown in the text field when no other text is present.
- *  @param floatingTitle The string to be shown above the text field once it has been populated with text by the user.
- */
+    
+    /**
+     *  Sets the placeholder and the floating title
+     *
+     *  @param placeholder The string that to be shown in the text field when no other text is present.
+     *  @param floatingTitle The string to be shown above the text field once it has been populated with text by the user.
+     */
 - (void)setPlaceholder:(NSString *)placeholder floatingTitle:(NSString *)floatingTitle;
-
-/**
- *  Sets the attributed placeholder and the floating title
- *
- *  @param attributedPlaceholder The string that to be shown in the text field when no other text is present.
- *  @param floatingTitle The string to be shown above the text field once it has been populated with text by the user.
- */
+    
+    /**
+     *  Sets the attributed placeholder and the floating title
+     *
+     *  @param attributedPlaceholder The string that to be shown in the text field when no other text is present.
+     *  @param floatingTitle The string to be shown above the text field once it has been populated with text by the user.
+     */
 - (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder floatingTitle:(NSString *)floatingTitle;
-
+    
 - (void)prepareTextFieldTitleForAttributes:(NSDictionary *)attr;
-
+    
 - (void)showTextFieldTitleWithAnimated:(BOOL)animated;
-
+    
 - (void)hideTextFieldTitle;
+    
+    @end
 
-@end
