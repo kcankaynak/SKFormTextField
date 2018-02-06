@@ -867,7 +867,14 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
         if (self.textFieldDidEndEditingBlock) {
             self.textFieldDidEndEditingBlock(textField.text);
         }
+    }
+    
+    if (_shouldHideTitleEndEditing) {
         [self hideFloatingLabel:YES];
+    } else {
+        if (textField.text.length == 0) {
+            [self hideFloatingLabel:YES];
+        }
     }
 }
 
@@ -1187,19 +1194,20 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
                             options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut
                          animations:showBlock
                          completion:nil];
-    } else {
+    }
+    else {
         showBlock();
     }
 }
 
 - (void)hideFloatingLabel:(BOOL)animated {
-    
     void (^hideBlock)(void) = ^{
         _floatingLabel.alpha = 0.0f;
         _floatingLabel.frame = CGRectMake(_floatingLabel.frame.origin.x,
                                           _floatingLabel.font.lineHeight + _placeholderYPadding,
                                           _floatingLabel.frame.size.width,
                                           _floatingLabel.frame.size.height);
+        
     };
     
     if (animated || 0 != _animateEvenIfNotFirstResponder) {
@@ -1208,13 +1216,13 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
                             options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseIn
                          animations:hideBlock
                          completion:nil];
-    } else {
+    }
+    else {
         hideBlock();
     }
 }
 
 - (void)setLabelOriginForTextAlignment {
-    
     CGRect textRect = [self textRectForBounds:self.bounds];
     
     CGFloat originX = textRect.origin.x;
@@ -1361,9 +1369,12 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
     [self setNeedsLayout];
 }
 
-- (void)prepareTextFieldTitleForAttributes:(NSDictionary *)attr {
+- (void)prepareTextFieldTitleForAttributes:(NSDictionary *)attr shouldHideTitleAfterEditing:(BOOL)shouldHide {
     
     _shouldShowPlaceholderTitle = YES;
+    _shouldHideTitleEndEditing = shouldHide;
+    
+    _floatingLabelFont = [self defaultFloatingLabelFont];
     _floatingLabel.font = [attr valueForKey:NSFontAttributeName];
     _floatingLabelTextColor = [attr valueForKey:NSForegroundColorAttributeName];
     _floatingLabel.textColor = _floatingLabelTextColor;
