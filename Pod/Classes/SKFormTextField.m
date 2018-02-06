@@ -14,18 +14,18 @@
 #define VALID_COLOR NORMAL_COLOR
 #define ERROR_COLOR [UIColor colorWithRed:219/255.0 green:68/255.0 blue:55/255.0 alpha:1.0]
 
-static CGFloat const kFloatingLabelShowAnimationDuration = 0.3f;
-static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
+static CGFloat const kFloatingLabelShowAnimationDuration = 0.25f;
+static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
 
 @interface SKFormTextField ()
-    
-    @end
+
+@end
 
 @implementation SKFormTextField {
     BOOL hasSetuped;
     BOOL _isFloatingLabelFontDefault;
 }
-    
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     
@@ -36,7 +36,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     
     return self;
 }
-    
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
@@ -47,12 +47,12 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     
     return self;
 }
-    
+
 - (void)drawRect:(CGRect)rect {
     // Update UI elements
     [self updateUI];
 }
-    
+
 - (void)initVars {
     // Initialize default values
     self.textFieldState = SKFormTextFieldStateDefault;
@@ -70,7 +70,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     self.errorMessageText = @"";
     self.textViewHeight = DEFAULT_TEXT_FIELD_HEIGHT;
 }
-    
+
 - (void)setup {
     // Check if view has already been setuped
     if (!hasSetuped) {
@@ -462,7 +462,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         hasSetuped = YES;
     }
 }
-    
+
 - (void)updateUI {
     if (self.textFieldState == SKFormTextFieldStateDefault) {
         self.line.backgroundColor = self.lineNormalColor;
@@ -538,13 +538,13 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     
     [self setNeedsUpdateConstraints];
 }
-    
+
 - (void)prepareForInterfaceBuilder {
     [super prepareForInterfaceBuilder];
     
     [self updateUI];
 }
-    
+
 - (void)checkTextFieldState {
     if (self.textFieldState == SKFormTextFieldStateActive) {
         // set description text to normal
@@ -630,23 +630,23 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         }
     }
 }
-    
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
     self.descriptionLabel.preferredMaxLayoutWidth = self.descriptionLabel.frame.size.width;
 }
-    
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidBeginEditingNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidEndEditingNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidBeginEditingNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidEndEditingNotification object:nil];
 }
-    
+
 #pragma mark - Methods
 #pragma mark -
-    
+
 - (void)setType:(SKFormTextFieldType)type animated:(BOOL)animated {
     self.type = type;
     
@@ -681,7 +681,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         }
     }
 }
-    
+
 - (void)showButtonAtSide:(SKFormTextFieldSide)side {
     if (side == SKFormTextFieldSideBoth) {
         self.leftButton.hidden = NO;
@@ -708,7 +708,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         self.rightButtonHeightConstraint.constant = 24;
     }
 }
-    
+
 - (void)hideButtonAtSide:(SKFormTextFieldSide)side {
     if (side == SKFormTextFieldSideBoth) {
         self.leftButton.hidden = YES;
@@ -735,7 +735,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         self.rightButtonHeightConstraint.constant = 0;
     }
 }
-    
+
 - (void)showDescriptionIconAtSide:(SKFormTextFieldSide)side {
     if (side == SKFormTextFieldSideBoth) {
         self.leftDescriptionIcon.hidden = NO;
@@ -762,7 +762,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         self.rightImageHeightConstraint.constant = 18;
     }
 }
-    
+
 - (void)hideDescriptionIconAtSide:(SKFormTextFieldSide)side {
     if (side == SKFormTextFieldSideBoth) {
         self.leftDescriptionIcon.hidden = YES;
@@ -789,18 +789,18 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         self.rightImageHeightConstraint.constant = 0;
     }
 }
-    
+
 - (BOOL)isEmpty {
     return !self.textField.text || self.textField.text.length == 0;
 }
-    
+
 - (void)datePickerDidChange:(UIDatePicker *)datePicker {
     self.textField.text = [self.dateFormatter stringFromDate:datePicker.date];
 }
-    
+
 #pragma mark - Protocols
 #pragma mark -
-    
+
 - (BOOL)textFieldIsValid {
     if ([self.dataSource respondsToSelector:@selector(textFieldIsValid:)]) {
         if (self.required && (!self.textField.text || self.textField.text.length == 0)) {
@@ -814,7 +814,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     
     return YES;
 }
-    
+
 - (void)configureTextFieldForCurrentState {
     if ([self.dataSource respondsToSelector:@selector(configureTextField:forState:)]) {
         [self.dataSource configureTextField:self forState:self.textFieldState];
@@ -822,16 +822,16 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     
     [self checkTextFieldState];
 }
-    
+
 #pragma mark - UITextFieldDelegate Observers
 #pragma mark -
-    
+
 - (void)textFieldDidChange:(UITextField *)textField {
     
     //[self setLabelOriginForTextAlignment];
     
 }
-    
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     
     [self setNeedsLayout];
@@ -852,7 +852,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         }
     }
 }
-    
+
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     
     if (textField.text.length == 0) {
@@ -870,10 +870,10 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self hideFloatingLabel:YES];
     }
 }
-    
+
 #pragma mark - UITextViewDelegate Observers
 #pragma mark -
-    
+
 - (void)textViewDidBeginEditing:(NSNotification *)notification {
     //    if ([self.delegate respondsToSelector:@selector(textFieldDidBeginUpdates:)]) {
     //        [self.delegate textFieldDidBeginUpdates:self];
@@ -890,7 +890,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     //        [self.delegate textFieldDidEndUpdates:self];
     //    }
 }
-    
+
 - (void)textViewDidEndEditing:(NSNotification *)notification {
     //    if ([self.delegate respondsToSelector:@selector(textFieldDidBeginUpdates:)]) {
     //        [self.delegate textFieldDidBeginUpdates:self];
@@ -911,9 +911,9 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     //        [self.delegate textFieldDidEndUpdates:self];
     //    }
 }
-    
+
 #pragma mark - Getters/Setters
-    
+
 - (void)setLineNormalColor:(UIColor *)lineNormalColor {
     _lineNormalColor = lineNormalColor;
     
@@ -921,7 +921,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setLineActiveColor:(UIColor *)lineActiveColor {
     _lineActiveColor = lineActiveColor;
     
@@ -929,7 +929,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setLineValidColor:(UIColor *)lineValidColor {
     _lineValidColor = lineValidColor;
     
@@ -937,7 +937,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setLineErrorColor:(UIColor *)lineErrorColor {
     _lineErrorColor = lineErrorColor;
     
@@ -945,7 +945,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setDescriptionNormalColor:(UIColor *)descriptionNormalColor {
     _descriptionNormalColor = descriptionNormalColor;
     
@@ -953,7 +953,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setDescriptionActiveColor:(UIColor *)descriptionActiveColor {
     _descriptionActiveColor = descriptionActiveColor;
     
@@ -961,7 +961,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setDescriptionValidColor:(UIColor *)descriptionValidColor {
     _descriptionValidColor = descriptionValidColor;
     
@@ -969,7 +969,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setDescriptionErrorColor:(UIColor *)descriptionErrorColor {
     _descriptionErrorColor = descriptionErrorColor;
     
@@ -977,7 +977,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setPlaceholderText:(NSString *)placeholderText {
     _placeholderText = placeholderText;
     
@@ -985,7 +985,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setDescriptionText:(NSString *)descriptionText {
     _descriptionText = descriptionText;
     
@@ -993,7 +993,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setErrorMessageText:(NSString *)errorMessageText {
     _errorMessageText = errorMessageText;
     
@@ -1001,7 +1001,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setLeftButtonImage:(UIImage *)leftButtonImage {
     _leftButtonImage = leftButtonImage;
     
@@ -1009,7 +1009,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setRightButtonImage:(UIImage *)rightButtonImage {
     _rightButtonImage = rightButtonImage;
     
@@ -1017,7 +1017,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setLeftIconImage:(UIImage *)leftIconImage {
     _leftIconImage = leftIconImage;
     
@@ -1025,7 +1025,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setRightIconImage:(UIImage *)rightIconImage {
     _rightIconImage = rightIconImage;
     
@@ -1033,7 +1033,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setErrorImage:(UIImage *)errorImage {
     _errorImage = errorImage;
     
@@ -1041,7 +1041,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setLeftButtonHidden:(BOOL)leftButtonHidden {
     _leftButtonHidden = leftButtonHidden;
     
@@ -1049,7 +1049,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setRightButtonHidden:(BOOL)rightButtonHidden {
     _rightButtonHidden = rightButtonHidden;
     
@@ -1057,7 +1057,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setLeftIconHidden:(BOOL)leftIconHidden {
     _leftIconHidden = leftIconHidden;
     
@@ -1065,7 +1065,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setRightIconHidden:(BOOL)rightIconHidden {
     _rightIconHidden = rightIconHidden;
     
@@ -1073,7 +1073,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setTextViewHeight:(CGFloat)textViewHeight {
     _textViewHeight = textViewHeight;
     
@@ -1081,7 +1081,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setTextFieldState:(SKFormTextFieldState)textFieldState {
     _textFieldState = textFieldState;
     
@@ -1089,7 +1089,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setType:(SKFormTextFieldType)type {
     _type = type;
     
@@ -1097,7 +1097,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setMode:(SKFormTextFieldMode)mode {
     _mode = mode;
     
@@ -1105,7 +1105,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setDoNotHideLineWhenRead:(BOOL)doNotHideLineWhenRead {
     _doNotHideLineWhenRead = doNotHideLineWhenRead;
     
@@ -1113,7 +1113,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 - (void)setKeyboardType:(UIKeyboardType *)keyboardType {
     _keyboardType = keyboardType;
     
@@ -1121,9 +1121,9 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self updateUI];
     }
 }
-    
+
 #pragma mark - TEXTFIELD TITLE -
-    
+
 - (UIFont *)defaultFloatingLabelFont {
     UIFont *textFieldFont = nil;
     
@@ -1138,7 +1138,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     }
     return [UIFont fontWithName:textFieldFont.fontName size:roundf(textFieldFont.pointSize * 0.7f)];
 }
-    
+
 - (void)updateDefaultFloatingLabelFont {
     UIFont *derivedFont = [self defaultFloatingLabelFont];
     
@@ -1150,7 +1150,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         _floatingLabelFont = derivedFont;
     }
 }
-    
+
 - (UIColor *)labelActiveColor {
     if (_floatingLabelActiveTextColor) {
         return _floatingLabelActiveTextColor;
@@ -1160,7 +1160,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     }
     return [UIColor blueColor];
 }
-    
+
 - (void)setFloatingLabelFont:(UIFont *)floatingLabelFont {
     if (floatingLabelFont != nil) {
         _floatingLabelFont = floatingLabelFont;
@@ -1170,7 +1170,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     [self setFloatingLabelText:self.textField.placeholder];
     [self invalidateIntrinsicContentSize];
 }
-    
+
 - (void)showFloatingLabel:(BOOL)animated {
     
     void (^showBlock)(void) = ^{
@@ -1187,20 +1187,19 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
                             options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut
                          animations:showBlock
                          completion:nil];
-    }
-    else {
+    } else {
         showBlock();
     }
 }
-    
+
 - (void)hideFloatingLabel:(BOOL)animated {
+    
     void (^hideBlock)(void) = ^{
         _floatingLabel.alpha = 0.0f;
         _floatingLabel.frame = CGRectMake(_floatingLabel.frame.origin.x,
                                           _floatingLabel.font.lineHeight + _placeholderYPadding,
                                           _floatingLabel.frame.size.width,
                                           _floatingLabel.frame.size.height);
-        
     };
     
     if (animated || 0 != _animateEvenIfNotFirstResponder) {
@@ -1209,13 +1208,13 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
                             options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseIn
                          animations:hideBlock
                          completion:nil];
-    }
-    else {
+    } else {
         hideBlock();
     }
 }
-    
+
 - (void)setLabelOriginForTextAlignment {
+    
     CGRect textRect = [self textRectForBounds:self.bounds];
     
     CGFloat originX = textRect.origin.x;
@@ -1230,31 +1229,31 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     _floatingLabel.frame = CGRectMake(originX + _floatingLabelXPadding, _floatingLabel.frame.origin.y,
                                       _floatingLabel.frame.size.width, _floatingLabel.frame.size.height);
 }
-    
+
 - (void)setFloatingLabelText:(NSString *)text {
     _floatingLabel.text = text;
     [self setLabelOriginForTextAlignment];
 }
-    
+
 #pragma mark - UITextField
-    
+
 - (void)setFont:(UIFont *)font {
     [self.textField setFont:font];
     [self updateDefaultFloatingLabelFont];
 }
-    
+
 - (void)setAttributedText:(NSAttributedString *)attributedText {
     [self.textField setAttributedText:attributedText];
     [self updateDefaultFloatingLabelFont];
 }
-    
+
 - (CGSize)intrinsicContentSize {
     CGSize textFieldIntrinsicContentSize = [super intrinsicContentSize];
     [_floatingLabel sizeToFit];
     return CGSizeMake(textFieldIntrinsicContentSize.width,
                       textFieldIntrinsicContentSize.height - 12.0f + _floatingLabel.bounds.size.height);
 }
-    
+
 - (void)setCorrectPlaceholder:(NSString *)placeholder {
     if (self.placeholderColor && placeholder) {
         NSAttributedString *attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholder
@@ -1264,33 +1263,33 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
         [self.textField setPlaceholder:placeholder];
     }
 }
-    
+
 - (void)setPlaceholder:(NSString *)placeholder {
     [self setCorrectPlaceholder:placeholder];
     [self setFloatingLabelText:placeholder];
 }
-    
+
 - (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder {
     [self.textField setAttributedPlaceholder:attributedPlaceholder];
     [self setFloatingLabelText:attributedPlaceholder.string];
     [self updateDefaultFloatingLabelFont];
 }
-    
+
 - (void)setPlaceholder:(NSString *)placeholder floatingTitle:(NSString *)floatingTitle {
     [self setCorrectPlaceholder:placeholder];
     [self setFloatingLabelText:floatingTitle];
 }
-    
+
 - (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder floatingTitle:(NSString *)floatingTitle {
     [self.textField setAttributedPlaceholder:attributedPlaceholder];
     [self setFloatingLabelText:floatingTitle];
 }
-    
+
 - (void)setPlaceholderColor:(UIColor *)color {
     _placeholderColor = color;
     [self setCorrectPlaceholder:self.textField.placeholder];
 }
-    
+
 - (CGRect)textRectForBounds:(CGRect)bounds {
     CGRect rect = [self.textField textRectForBounds:bounds];
     if ([self.textField.text length] || self.keepBaseline) {
@@ -1298,7 +1297,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     }
     return CGRectIntegral(rect);
 }
-    
+
 - (CGRect)editingRectForBounds:(CGRect)bounds {
     CGRect rect = [self.textField editingRectForBounds:bounds];
     if ([self.textField.text length] || self.keepBaseline) {
@@ -1306,13 +1305,13 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     }
     return CGRectIntegral(rect);
 }
-    
+
 - (CGRect)insetRectForBounds:(CGRect)rect {
     CGFloat topInset = ceilf(_floatingLabel.bounds.size.height + _placeholderYPadding);
     topInset = MIN(topInset, [self maxTopInset]);
     return CGRectMake(rect.origin.x, rect.origin.y + topInset / 2.0f, rect.size.width, rect.size.height);
 }
-    
+
 - (CGRect)clearButtonRectForBounds:(CGRect)bounds {
     CGRect rect = [self.textField clearButtonRectForBounds:bounds];
     if (0 != self.adjustsClearButtonRect
@@ -1326,7 +1325,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     }
     return CGRectIntegral(rect);
 }
-    
+
 - (CGRect)leftViewRectForBounds:(CGRect)bounds {
     CGRect rect = [self.textField leftViewRectForBounds:bounds];
     
@@ -1336,7 +1335,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     
     return rect;
 }
-    
+
 - (CGRect)rightViewRectForBounds:(CGRect)bounds {
     
     CGRect rect = [self.textField rightViewRectForBounds:bounds];
@@ -1347,38 +1346,43 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.3f;
     
     return rect;
 }
-    
+
 - (CGFloat)maxTopInset {
     return MAX(0, floorf(self.textField.bounds.size.height - self.textField.font.lineHeight - 4.0f));
 }
-    
+
 - (void)setTextAlignment:(NSTextAlignment)textAlignment {
     [self.textField setTextAlignment:textAlignment];
     [self setNeedsLayout];
 }
-    
+
 - (void)setAlwaysShowFloatingLabel:(BOOL)alwaysShowFloatingLabel {
     _alwaysShowFloatingLabel = alwaysShowFloatingLabel;
     [self setNeedsLayout];
 }
-    
+
 - (void)prepareTextFieldTitleForAttributes:(NSDictionary *)attr {
-    _shouldShowPlaceholderTitle = YES;
-    [self setFloatingLabelFont:[attr valueForKey:NSFontAttributeName]];
-    [self setFloatingLabelTextColor:[attr valueForKey:NSForegroundColorAttributeName]];
-}
     
+    _shouldShowPlaceholderTitle = YES;
+    _floatingLabel.font = [attr valueForKey:NSFontAttributeName];
+    _floatingLabelTextColor = [attr valueForKey:NSForegroundColorAttributeName];
+    _floatingLabel.textColor = _floatingLabelTextColor;
+    _animateEvenIfNotFirstResponder = NO;
+    _floatingLabelShowAnimationDuration = kFloatingLabelShowAnimationDuration;
+    _floatingLabelHideAnimationDuration = kFloatingLabelHideAnimationDuration;
+    [self setFloatingLabelText:self.textField.placeholder];
+}
+
 - (void)showTextFieldTitleWithAnimated:(BOOL)animated {
     if (_floatingLabel.alpha < 1.0f) {
         [self showFloatingLabel:animated];
     }
 }
-    
+
 - (void)hideTextFieldTitle {
     if (_floatingLabel.alpha > 0.0f) {
         [self hideFloatingLabel:YES];
     }
 }
-    
-@end
 
+@end
