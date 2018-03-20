@@ -56,9 +56,12 @@ typedef enum SKFormTextFieldState:NSInteger {
 @protocol SKFormTextFieldDelegate <NSObject>
 
 @optional
-- (void)textFieldDidBeginUpdates:(SKFormTextField *)textField;
-- (void)textFieldDidEndUpdates:(SKFormTextField *)textField;
-
+- (void)formDidChange:(SKFormTextField *)formField;
+- (BOOL)formShouldBeginEditing:(SKFormTextField *)formField;
+- (void)formDidBeginEditing:(SKFormTextField *)formField;
+- (void)formDidEndEditing:(SKFormTextField *)formField;
+- (BOOL)form:(SKFormTextField *)formField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
+- (BOOL)formShouldClear:(SKFormTextField *)formField;
 @end
 
 /**
@@ -119,6 +122,9 @@ IB_DESIGNABLE
 @property (nonatomic) IBInspectable BOOL required;
 @property (nonatomic) IBInspectable BOOL doNotHideLineWhenRead;
 @property (nonatomic) IBInspectable BOOL hideLine;
+@property (nonatomic) IBInspectable BOOL isEditable;
+@property (nonatomic) BOOL shouldClear;
+@property (nonatomic) IBInspectable NSUInteger maxCharacterCount;
 @property (nonatomic) IBInspectable CGFloat textViewHeight;
 
 @property (nonatomic, strong, readonly) UILabel *floatingLabel;
@@ -175,6 +181,7 @@ IB_DESIGNABLE
 @property (strong, nonatomic) UIImageView *rightDescriptionIcon;
 @property (nonatomic) BOOL shouldShowPlaceholderTitle;
 @property (nonatomic) BOOL shouldHideTitleEndEditing;
+
 
 #pragma mark - Methods
 #pragma mark -

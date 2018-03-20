@@ -19,6 +19,9 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
 
 @interface SKFormTextField ()
 
+@property (nonatomic) BOOL isMaxCharacterSet;
+@property (nonatomic) BOOL isEditingStateSet;
+
 @end
 
 @implementation SKFormTextField {
@@ -107,6 +110,12 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
             
             _adjustsClearButtonRect = YES;
             _isFloatingLabelFontDefault = YES;
+            
+            if (_maxCharacterCount && _maxCharacterCount > 0) {
+                _isMaxCharacterSet = YES;
+            } else {
+                _isMaxCharacterSet = NO;
+            }
         }
         if (!self.datePicker) {
             self.dateFormatter = [NSDateFormatter new];
@@ -536,7 +545,15 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
         }
     }
     
+    if (_maxCharacterCount && _maxCharacterCount > 0) {
+        _isMaxCharacterSet = YES;
+    } else {
+        _isMaxCharacterSet = NO;
+    }
+    
     [self setNeedsUpdateConstraints];
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
 
 - (void)prepareForInterfaceBuilder {
@@ -827,9 +844,9 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
 #pragma mark -
 
 - (void)textFieldDidChange:(UITextField *)textField {
-    
-    //[self setLabelOriginForTextAlignment];
-    
+    if ([self.delegate respondsToSelector:@selector(formDidChange:)]) {
+        [self.delegate formDidChange:self];
+    }
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -846,10 +863,14 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
     if (self.textField == textField) {
         self.textFieldState = SKFormTextFieldStateActive;
         [self configureTextFieldForCurrentState];
-        if(_shouldShowPlaceholderTitle) {
+        if (_shouldShowPlaceholderTitle) {
             textField.placeholder = @"";
             [self showFloatingLabel:textField.isFirstResponder];
         }
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(formDidBeginEditing:)]) {
+        [self.delegate formDidBeginEditing:self];
     }
 }
 
@@ -876,15 +897,46 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
             [self hideFloatingLabel:YES];
         }
     }
+    if ([self.delegate respondsToSelector:@selector(formDidEndEditing:)]) {
+        [self.delegate formDidEndEditing:self];
+    }
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if ([self.delegate respondsToSelector:@selector(formShouldBeginEditing:)]) {
+        [self.delegate formShouldBeginEditing:self];
+    }
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    if ([self.delegate respondsToSelector:@selector(form:shouldChangeCharactersInRange:replacementString:)]) {
+        [self.delegate form:self shouldChangeCharactersInRange:range replacementString:string];
+    }
+    
+    if (_isMaxCharacterSet) {
+        if (textField.text) {
+            NSUInteger newLength = textField.text.length + string.length - range.length;
+            return newLength <= _maxCharacterCount;
+        }
+        return YES;
+    }
+    return YES;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+    return _shouldClear;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    return YES;
 }
 
 #pragma mark - UITextViewDelegate Observers
 #pragma mark -
 
 - (void)textViewDidBeginEditing:(NSNotification *)notification {
-    //    if ([self.delegate respondsToSelector:@selector(textFieldDidBeginUpdates:)]) {
-    //        [self.delegate textFieldDidBeginUpdates:self];
-    //    }
     
     UITextView *textView = [notification object];
     
@@ -892,16 +944,9 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
         self.textFieldState = SKFormTextFieldStateActive;
         [self configureTextFieldForCurrentState];
     }
-    
-    //    if ([self.delegate respondsToSelector:@selector(textFieldDidEndUpdates:)]) {
-    //        [self.delegate textFieldDidEndUpdates:self];
-    //    }
 }
 
 - (void)textViewDidEndEditing:(NSNotification *)notification {
-    //    if ([self.delegate respondsToSelector:@selector(textFieldDidBeginUpdates:)]) {
-    //        [self.delegate textFieldDidBeginUpdates:self];
-    //    }
     
     UITextView *textView = [notification object];
     
@@ -913,10 +958,6 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
             self.textViewDidEndEditingBlock(textView.text);
         }
     }
-    
-    //    if ([self.delegate respondsToSelector:@selector(textFieldDidEndUpdates:)]) {
-    //        [self.delegate textFieldDidEndUpdates:self];
-    //    }
 }
 
 #pragma mark - Getters/Setters
@@ -1121,6 +1162,14 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
     }
 }
 
+- (void)setMaxCharacterCount:(NSUInteger)maxCharacterCount {
+    _maxCharacterCount = maxCharacterCount;
+    
+    if (hasSetuped) {
+        [self updateUI];
+    }
+}
+
 - (void)setKeyboardType:(UIKeyboardType *)keyboardType {
     _keyboardType = keyboardType;
     
@@ -1153,7 +1202,6 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
         self.floatingLabelFont = derivedFont;
     }
     else {
-        // dont apply to the label, just store for future use where floatingLabelFont may be reset to nil
         _floatingLabelFont = derivedFont;
     }
 }
@@ -1286,6 +1334,8 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
 - (void)setPlaceholder:(NSString *)placeholder floatingTitle:(NSString *)floatingTitle {
     [self setCorrectPlaceholder:placeholder];
     [self setFloatingLabelText:floatingTitle];
+    self.placeholderText = placeholder;
+    [self updateUI];
 }
 
 - (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder floatingTitle:(NSString *)floatingTitle {
@@ -1397,3 +1447,5 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
 }
 
 @end
+
+
