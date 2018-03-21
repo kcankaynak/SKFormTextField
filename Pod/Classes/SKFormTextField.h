@@ -122,7 +122,7 @@ IB_DESIGNABLE
 @property (nonatomic) IBInspectable BOOL required;
 @property (nonatomic) IBInspectable BOOL doNotHideLineWhenRead;
 @property (nonatomic) IBInspectable BOOL hideLine;
-@property (nonatomic) IBInspectable BOOL isEditable;
+@property (nonatomic) BOOL isEditable;
 @property (nonatomic) BOOL shouldClear;
 @property (nonatomic) IBInspectable NSUInteger maxCharacterCount;
 @property (nonatomic) IBInspectable CGFloat textViewHeight;

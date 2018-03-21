@@ -116,6 +116,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
             } else {
                 _isMaxCharacterSet = NO;
             }
+            _isEditable = YES;
         }
         if (!self.datePicker) {
             self.dateFormatter = [NSDateFormatter new];
@@ -906,7 +907,7 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
     if ([self.delegate respondsToSelector:@selector(formShouldBeginEditing:)]) {
         [self.delegate formShouldBeginEditing:self];
     }
-    return YES;
+    return _isEditable;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -1447,5 +1448,4 @@ static CGFloat const kFloatingLabelHideAnimationDuration = 0.15f;
 }
 
 @end
-
 
